@@ -37,6 +37,8 @@ modified: '2026-07-27'
 specificationVersion: '0.19'
 apis: []
 common:
+- type: DomainSecurity
+  url: security/sa-power-networks-domain-security.yml
 - type: Website
   url: https://www.sapowernetworks.com.au/
 - type: LinkedIn
@@ -61,6 +63,28 @@ common:
   url: https://www.sapowernetworks.com.au/industry/annual-network-plans/
 - type: Data
   url: https://www.sapowernetworks.com.au/data/324688/2024-2025-zone-substation-data/
+- type: Portal
+  name: Industry Portal (network access permits, customer enquiries, embedded generation)
+  url: https://www.sapowernetworks.com.au/industry/portal/
+- type: Support
+  url: https://www.sapowernetworks.com.au/contact-us/
+- type: PrivacyPolicy
+  url: https://www.sapowernetworks.com.au/policies/privacy-policy/
+- type: TermsOfService
+  name: Website disclaimer and copyright terms
+  url: https://www.sapowernetworks.com.au/policies/disclaimer/
+- type: WellKnown
+  url: well-known/sa-power-networks-well-known.yml
+- type: Authentication
+  url: authentication/sa-power-networks-authentication.yml
+- type: OAuthScopes
+  url: scopes/sa-power-networks-scopes.yml
+- type: Conformance
+  url: conformance/sa-power-networks-conformance.yml
+- type: Lifecycle
+  url: lifecycle/sa-power-networks-lifecycle.yml
+- type: LLMsTxt
+  url: llms/sa-power-networks-llms.txt
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

@@ -1,0 +1,100 @@
+generated: '2026-07-27'
+method: searched
+source: anonymous HTTP probes of every SA Power Networks host known to the catalog
+note: >-
+  SA Power Networks publishes no /.well-known/ discovery surface on its corporate
+  site or its network-visualisation portal. The single document that does resolve
+  is an OpenID Connect discovery document served by the Salesforce Experience Cloud
+  community that hosts the "Your Meter Data" portal — platform-provided identity
+  metadata for a browser login, not an API authorization surface. It is recorded
+  here because it is real, anonymous and machine-readable; it is NOT evidence of a
+  published API. This corrects the round-one finding that "no OIDC discovery
+  document is reachable" — that was true of the AWS Cognito hosted-UI domain
+  fronting the DAPR portal, but not of the meter-data community.
+hosts:
+- host: https://www.sapowernetworks.com.au
+  role: corporate website
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+- host: https://dapr.sapowernetworks.com.au
+  role: DAPR Network Visualisation Portal (Rosetta portal vendor, AWS Cognito login)
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+- host: https://customer.portal.sapowernetworks.com.au
+  role: Salesforce Experience Cloud community root (redirects into /meterdata)
+  documents:
+  - path: /.well-known/security.txt
+    status: 301
+    note: redirects to /meterdata/.well-known/security.txt
+  - path: /.well-known/openid-configuration
+    status: 301
+    note: redirects to /meterdata/.well-known/openid-configuration
+  - path: /.well-known/api-catalog
+    status: 301
+  - path: /llms.txt
+    status: 301
+- host: https://customer.portal.sapowernetworks.com.au/meterdata
+  role: '"Your Meter Data" portal — Authorised Representative login (Salesforce Experience Cloud)'
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: application/json;charset=UTF-8
+    bytes: 2582
+    file: sa-power-networks-meterdata-openid-configuration.json
+    spec: OpenID Connect Discovery 1.0
+    note: >-
+      Issuer https://customer.portal.sapowernetworks.com.au/meterdata. Authorization,
+      token, userinfo, revocation, introspection, registration and end-session
+      endpoints all published. scopes_supported and claims_supported are the stock
+      Salesforce platform sets, not an SA Power Networks-designed authorization model.
+  - path: /id/keys
+    status: 200
+    content_type: application/json
+    bytes: 3972
+    file: sa-power-networks-meterdata-jwks.json
+    spec: RFC 7517 JWKS
+    note: RS256 public signing keys referenced by jwks_uri in the discovery document.
+  - path: /.well-known/security.txt
+    status: 302
+    note: redirected to the community login page — no security.txt exists
+  - path: /.well-known/oauth-authorization-server
+    status: 302
+  - path: /.well-known/oauth-protected-resource
+    status: 302
+  - path: /.well-known/api-catalog
+    status: 302
+  - path: /.well-known/ai-plugin.json
+    status: 302
+  - path: /llms.txt
+    status: 302
+security_txt:
+  found: false
+  note: >-
+    No RFC 9116 security.txt on any SA Power Networks host, and no vulnerability
+    disclosure or bug-bounty page was located. Recorded absence, not an omission.

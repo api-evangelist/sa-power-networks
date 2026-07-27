@@ -1,0 +1,148 @@
+generated: '2026-07-27'
+method: searched
+source: >-
+  SA Power Networks' own published Flexible Exports trial reports, its technical
+  standards pages, the live Australian CDR Register, and anonymous probing of its
+  portal hosts
+summary: >-
+  SA Power Networks conforms to no API-layer standard because it operates no API.
+  What it does conform to — and this is the round-two correction to the record — is
+  IEEE 2030.5 via the Australian Common Smart Inverter Profile (CSIP-AUS), and it
+  names that protocol in its own published documents. Round one concluded "no
+  standard reference found in any SA Power Networks publication"; that was drawn
+  from the connection standards (TS129) and the Flexible Exports product pages,
+  where it holds. It does not hold for the four Flexible Exports Lessons Learnt
+  reports SA Power Networks publishes on its own domain, which name IEEE 2030.5 and
+  CSIP-AUS explicitly and describe the utility-server integration architecture.
+  The protocol is documented; the endpoint, the onboarding path and the interface
+  specification still are not.
+standards:
+- id: ieee-2030.5
+  name: IEEE 2030.5 (Smart Energy Profile Application Protocol)
+  conforms: true
+  scope: Flexible Exports / dynamic export limits (device-facing, not developer-facing)
+  evidence: >-
+    SA Power Networks' own Flexible Exports for Solar PV Lessons Learnt Report 3
+    (published at sapowernetworks.com.au) names IEEE 2030.5 twelve times, including
+    "Several different IEEE 2030.5 compliant integration architectures could enable
+    communication between the server and customer equipment" and "Segregation of
+    devices across multiple network areas (and multiple IEEE 2030.5 utility servers)".
+    Report 2 states the project team "developed an early draft of the Australian
+    adaptation of CSIP (CSIP-AUS) ... to ensure consistency across IEEE 2030.5
+    dynamic operating envelope implementations in Australia".
+  sources:
+  - url: https://www.sapowernetworks.com.au/public/download.jsp?id=320260
+    title: Flexible Exports for Solar PV — Lessons Learnt Report 3
+    httpStatus: 200
+    bytes: 1470392
+    fetched: '2026-07-27'
+    matches: {'IEEE 2030.5': 12, CSIP: 4, utility server: 2, SwitchDin: 29}
+  - url: https://www.sapowernetworks.com.au/public/download.jsp?id=320259
+    title: Flexible Exports for Solar PV — Lessons Learnt Report 2
+    httpStatus: 200
+    bytes: 925957
+    fetched: '2026-07-27'
+    matches: {'2030.5': 3, CSIP: 31, IEEE: 4}
+  - url: https://www.sapowernetworks.com.au/public/download.jsp?id=320258
+    title: Flexible Exports for Solar PV — Lessons Learnt Report 1
+    httpStatus: 200
+    fetched: '2026-07-27'
+    matches: {'2030.5': 1, CSIP: 1, SwitchDin: 3}
+  - url: https://www.sapowernetworks.com.au/public/download.jsp?id=320975
+    title: Flexible Exports for Solar PV — Lessons Learnt Report 4
+    httpStatus: 200
+    fetched: '2026-07-27'
+    matches: {'2030.5': 1, CSIP: 2, SwitchDin: 14}
+  - url: https://arena.gov.au/assets/2024/01/SA-Power-Networks-Flexible-Exports-for-Solar-PV-Trial-Final-Report.pdf
+    title: ARENA — Flexible Exports for Solar PV Trial Final Report
+    httpStatus: 200
+    note: third-party documentation of the SwitchDin-built CSIP-AUS utility server
+  gap: >-
+    No base URI, no interface specification, no certificate/mTLS onboarding guide and
+    no test harness is published by SA Power Networks for its utility server. Peer
+    DNSPs (Energex, United Energy, Powercor/CitiPower, Essential Energy, Synergy)
+    publish a CSIP-AUS "Utility Interconnection Handbook"; SA Power Networks — the
+    DNSP that originated CSIP-AUS — publishes none. Integration runs through
+    inverter-manufacturer certification and a phone number (13 12 61).
+- id: csip-aus
+  name: Common Smart Inverter Profile — Australia (SA HB 218 / SA TS 5573)
+  conforms: true
+  scope: Flexible Exports dynamic operating envelopes
+  evidence: >-
+    SA Power Networks' Lessons Learnt Report 2 documents the project team drafting
+    CSIP-AUS with the DER API technical working group; the draft became Standards
+    Australia handbook SA HB 218 and is now maintained as SA TS 5573. Lesson #4 of
+    that report is specifically about the limits of the CSIP implementation guide.
+  note: >-
+    Conformance is asserted from SA Power Networks' own trial documentation, not from
+    a certification listing. No CSIP-AUS server test result is published by the company.
+- id: as-nzs-4777
+  name: AS/NZS 4777.1:2024 / AS/NZS 4777.2:2020 (grid connection of inverter energy systems)
+  conforms: true
+  evidence: >-
+    Cited throughout Technical Standard TS129 (48 occurrences of "4777") and on the
+    CER compliance technical-standards page.
+  sources:
+  - url: https://www.sapowernetworks.com.au/connections/connect-solar-and-ev-chargers/small-embedded-generation/cer-compliance/technical-standards-and-useful-links/
+    httpStatus: 200
+    fetched: '2026-07-27'
+- id: cdr-consumer-data-standards
+  name: Consumer Data Right — Consumer Data Standards (Energy)
+  conforms: false
+  evidence: >-
+    SA Power Networks is not a designated CDR data holder. The Consumer Data Right
+    (Energy Sector) Designation names electricity retailers as primary data holders
+    and AEMO as secondary; distribution network service providers are excluded.
+    Verified against the live register — 84 energy brands returned, all retailers,
+    zero DNSPs.
+  sources:
+  - url: https://api.cdr.gov.au/cdr-register/v1/energy/data-holders/brands/summary
+    httpStatus: 200
+    fetched: '2026-07-27'
+- id: oidc
+  name: OpenID Connect Discovery 1.0
+  conforms: true
+  scope: '"Your Meter Data" portal login only — no API behind it'
+  evidence: >-
+    A conformant discovery document is served anonymously at
+    https://customer.portal.sapowernetworks.com.au/meterdata/.well-known/openid-configuration
+    (HTTP 200) with issuer, authorization/token/userinfo/revocation/introspection/
+    registration endpoints, RS256 id_token signing and a JWKS. Provided by the
+    Salesforce Experience Cloud platform, not authored by SA Power Networks.
+  sources:
+  - url: https://customer.portal.sapowernetworks.com.au/meterdata/.well-known/openid-configuration
+    httpStatus: 200
+    fetched: '2026-07-27'
+- id: oauth2
+  name: OAuth 2.0
+  conforms: true
+  scope: portal logins only (Salesforce IdP authorization code; AWS Cognito implicit)
+  evidence: >-
+    Token/authorize endpoints published in the meter-data discovery document; the
+    DAPR portal drives an AWS Cognito implicit-grant login (response_type=token).
+- id: rfc9116-security-txt
+  name: RFC 9116 security.txt
+  conforms: false
+  evidence: 404 on every SA Power Networks host probed 2026-07-27.
+- id: rfc9727-api-catalog
+  name: RFC 9727 /.well-known/api-catalog
+  conforms: false
+  evidence: 404 / redirect on every host probed 2026-07-27.
+- id: openapi
+  name: OpenAPI Specification
+  conforms: false
+  evidence: No OpenAPI, Swagger, GraphQL, AsyncAPI, MCP or Postman contract exists.
+- id: rfc9457-problem-details
+  name: RFC 9457 Problem Details
+  conforms: false
+  evidence: No API surface, therefore no error contract.
+- id: green-button-espi
+  name: Green Button / NAESB ESPI
+  conforms: false
+  evidence: Zero occurrences of "green-button" across the 546-URL sitemap.
+compliance_program:
+  published: false
+  note: >-
+    No trust centre, no SOC 2 / ISO 27001 / PCI DSS certification listing, and no
+    vulnerability disclosure or bug-bounty programme was found. No Compliance pointer
+    is emitted, because none is published.

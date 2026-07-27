@@ -1,0 +1,58 @@
+generated: '2026-07-27'
+method: searched
+source: sapowernetworks.com.au sitemap (546 URLs) + direct page probes on 2026-07-27
+summary: >-
+  There is no API lifecycle to record. SA Power Networks publishes no API, and
+  therefore no versioning scheme, no deprecation policy, no Sunset/Deprecation
+  header behaviour, no API SLA and no API status page. What it does publish is a
+  document lifecycle (annually re-issued datasets and technical standards) and a
+  customer-facing network outage map. Both are recorded here as the honest analogue,
+  and neither is wired as a StatusPage or Deprecation pointer, because neither is
+  about an API.
+versioning:
+  scheme: none
+  current: null
+  docs: null
+  note: >-
+    Technical standards carry document revisions (e.g. TS129, 2025 edition) and the
+    open datasets carry a financial-year label (e.g. "2024-2025 Zone Substation
+    Data"). Annual re-issue is the only versioning contract in evidence.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: >-
+    No deprecation policy of any kind. Superseded standards and datasets are replaced
+    on the website without a published notice period. The REX Portal is being
+    retired in favour of a new industry portal, announced through news posts rather
+    than a deprecation policy.
+  evidence:
+  - url: https://www.sapowernetworks.com.au/industry/rex-portal/
+    httpStatus: 200
+    fetched: '2026-07-27'
+  - url: https://www.sapowernetworks.com.au/industry/portal/
+    httpStatus: 200
+    fetched: '2026-07-27'
+sla:
+  url: null
+  uptime_target: null
+  note: >-
+    Service standards are regulatory (AER Guaranteed Service Level payments for
+    supply interruptions), not technical. No availability commitment attaches to any
+    digital surface.
+  related:
+  - https://www.sapowernetworks.com.au/outages/make-a-claim/guaranteed-service-level-payment/
+status_page: null
+network_status:
+  url: https://www.sapowernetworks.com.au/outages/view-the-outage-map/
+  httpStatus: 200
+  fetched: '2026-07-27'
+  note: >-
+    Live electricity outage map for customers. This is network status, not API or
+    platform status, and is deliberately NOT wired as a StatusPage pointer.
+release_notes:
+  url: https://www.sapowernetworks.com.au/industry/industry-news/
+  note: >-
+    Portal changes are announced as dated news posts ("What's new in the portal and
+    what's coming next"), the closest surface to release notes. Unstructured prose,
+    no version identifiers, no change classification — captured as Blog, not ChangeLog.
+deprecated_operations: []

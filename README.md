@@ -50,6 +50,25 @@ See `review.yml` for the full mandate, standard, access-gate and auth findings.
 - [Documentation](https://www.sapowernetworks.com.au/industry/relevant-agent/)
 - [Data](https://www.sapowernetworks.com.au/industry/annual-network-plans/)
 - [Data](https://www.sapowernetworks.com.au/data/324688/2024-2025-zone-substation-data/)
+- [Portal — Industry Portal](https://www.sapowernetworks.com.au/industry/portal/)
+- [Support](https://www.sapowernetworks.com.au/contact-us/)
+- [Privacy Policy](https://www.sapowernetworks.com.au/policies/privacy-policy/)
+- [Terms of Service — website disclaimer](https://www.sapowernetworks.com.au/policies/disclaimer/)
+
+## Artifacts
+
+Enrichment round 2026-07-27. Every artifact below records what was actually probed, including the negatives.
+
+- `well-known/sa-power-networks-well-known.yml` — `/.well-known/` probe matrix across four hosts. One document exists.
+- `well-known/sa-power-networks-meterdata-openid-configuration.json` — verbatim OIDC discovery document from the Your Meter Data portal (HTTP 200), plus its JWKS.
+- `authentication/sa-power-networks-authentication.yml` — both portal auth surfaces (Salesforce Experience Cloud OIDC, AWS Cognito implicit) and what is absent.
+- `scopes/sa-power-networks-scopes.yml` — the OIDC `scopes_supported` set, flagged as Salesforce platform defaults rather than an SA Power Networks authorization model.
+- `conformance/sa-power-networks-conformance.yml` — IEEE 2030.5 / CSIP-AUS conformance with evidence from SA Power Networks' own trial reports; CDR, OpenAPI, security.txt and api-catalog all recorded as non-conforming.
+- `lifecycle/sa-power-networks-lifecycle.yml` — no API versioning, deprecation policy, SLA or status page; the outage map is network status, not API status.
+- `llms/sa-power-networks-llms.txt` — generated (the provider serves no `/llms.txt`).
+- `security/sa-power-networks-domain-security.yml` — probed TLS/HSTS/DNSSEC/CAA/SPF/DMARC.
+
+Two round-one findings were corrected this round (see the `correction:` blocks in `review.yml`): SA Power Networks **does** name IEEE 2030.5 and CSIP-AUS in its own published Flexible Exports Lessons Learnt reports, and an OpenID Connect discovery document **is** reachable — on the meter-data portal, not on the Cognito domain. Neither changes the headline: still no API.
 
 ## Maintainers
 

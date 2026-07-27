@@ -1,0 +1,47 @@
+# SA Power Networks
+
+> South Australia's sole electricity distributor — the poles-and-wires DNSP delivering power to around 900,000 homes and businesses, and the operator of the state's Flexible Exports dynamic solar export scheme. SA Power Networks publishes **no API**: no developer portal, no OpenAPI/AsyncAPI/GraphQL/MCP contract, no API keys and no machine-readable index. Its integration surface is web portals for humans and bulk file downloads. This file records that posture accurately so agents do not go looking for an API that does not exist.
+
+Generated 2026-07-27 by the API Evangelist enrichment pipeline. `/llms.txt` returned 404 on every SA Power Networks host, so this document is generated from the catalog record and the artifacts in this repository, not harvested from the provider.
+
+## APIs
+
+- No public, documented API. `apis[]` in apis.yml is empty and that is the accurate record.
+- Not a Consumer Data Right data holder: the CDR (Energy Sector) Designation covers electricity retailers and AEMO, not distribution networks. Verified against the live register — 84 energy brands, all retailers, zero DNSPs.
+- The one API-shaped thing SA Power Networks operates is an IEEE 2030.5 / CSIP-AUS utility server that dispatches Flexible Exports limits to certified inverters. No base URI, interface specification or onboarding guide for it is published.
+
+## Access paths (all human)
+
+- [Access your client's meter data](https://www.sapowernetworks.com.au/industry/access-your-clients-meter-data/): consent + Authorised Representative Registration form (PDF) + eligibility confirmation, then a browser login to the Your Meter Data portal.
+- [DAPR Network Visualisation Portal](https://dapr.sapowernetworks.com.au/): self-serve sign-up (AWS Cognito), delivers a map viewer of network capacity, headroom and constraints — a picture, not data.
+- [Annual network plans](https://www.sapowernetworks.com.au/industry/annual-network-plans/): DAPR, system limitation templates and the register of connected embedded generation, as anonymous file downloads.
+- [2024-2025 Zone Substation Data](https://www.sapowernetworks.com.au/data/324688/2024-2025-zone-substation-data/): anonymous 34 MB ZIP, no login, no click-through — but the site disclaimer forbids reproduction without written permission, so it is open access, not an open licence.
+
+## Standards
+
+- IEEE 2030.5 and CSIP-AUS (SA HB 218 / SA TS 5573) — named in SA Power Networks' own Flexible Exports Lessons Learnt reports 1-4, and implemented behind the wall. See `conformance/sa-power-networks-conformance.yml`.
+- AS/NZS 4777.1:2024 and AS/NZS 4777.2:2020 — cited in Technical Standard TS129 and the CER compliance pages.
+- Not Green Button, not ESPI, not the CDR Consumer Data Standards, not OCPP/OCPI, not OpenADR, not IEC CIM.
+
+## Identity
+
+- [Your Meter Data OIDC discovery](https://customer.portal.sapowernetworks.com.au/meterdata/.well-known/openid-configuration): a real, anonymous OpenID Connect discovery document served by the Salesforce Experience Cloud platform hosting the portal. It authenticates a browser login; there is no API behind it.
+- DAPR portal: AWS Cognito user pool, implicit grant, no reachable discovery document.
+
+## Repository artifacts
+
+- `apis.yml` — the APIs.json/APIs.yml catalog record
+- `review.yml` — the full API Evangelist review: mandate posture, standards, access gates, auth model, every probe with its HTTP status
+- `well-known/sa-power-networks-well-known.yml` — the `/.well-known/` probe matrix across four hosts
+- `well-known/sa-power-networks-meterdata-openid-configuration.json` — the one discovery document that exists, saved verbatim
+- `authentication/sa-power-networks-authentication.yml` — both portal auth surfaces, and what is absent
+- `scopes/sa-power-networks-scopes.yml` — the platform-published OIDC scope set (Salesforce defaults, not an SA Power Networks model)
+- `conformance/sa-power-networks-conformance.yml` — standards conformance, with evidence and gaps
+- `lifecycle/sa-power-networks-lifecycle.yml` — versioning, deprecation, SLA and status: all absent, recorded as absent
+- `security/sa-power-networks-domain-security.yml` — probed TLS/HSTS/DNSSEC/CAA/SPF/DMARC posture
+
+## Contact
+
+- Industry and general enquiries: 13 12 61
+- [Contact us](https://www.sapowernetworks.com.au/contact-us/)
+- [Feedback and enquiries form](https://www.sapowernetworks.com.au/contact/feedback-enquiries-form/)

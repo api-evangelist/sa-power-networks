@@ -1,0 +1,131 @@
+generated: '2026-07-27'
+method: searched
+source: https://customer.portal.sapowernetworks.com.au/meterdata/.well-known/openid-configuration
+file: well-known/sa-power-networks-meterdata-openid-configuration.json
+docs: null
+caveat: >-
+  These are the scopes advertised by the Salesforce Experience Cloud identity
+  provider that fronts the "Your Meter Data" portal — the stock Salesforce platform
+  scope set, published by the vendor platform rather than designed by SA Power
+  Networks. SA Power Networks documents no scope model of its own, publishes no
+  scope reference page, and exposes no API for these scopes to authorize. They are
+  recorded because they are genuinely published and anonymously retrievable, not
+  because they represent an SA Power Networks authorization contract.
+schemes:
+- name: meterdata-oidc
+  type: openIdConnect
+  issuer: https://customer.portal.sapowernetworks.com.au/meterdata
+  source: well-known/sa-power-networks-meterdata-openid-configuration.json
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://customer.portal.sapowernetworks.com.au/meterdata/services/oauth2/authorize
+    tokenUrl: https://customer.portal.sapowernetworks.com.au/meterdata/services/oauth2/token
+scopes:
+- scope: openid
+  description: OpenID Connect authentication; returns an ID token.
+  origin: salesforce-platform
+- scope: profile
+  description: Basic profile claims for the authenticated user.
+  origin: salesforce-platform
+- scope: email
+  description: Email address claim.
+  origin: salesforce-platform
+- scope: address
+  description: Address claims.
+  origin: salesforce-platform
+- scope: phone
+  description: Phone number claims.
+  origin: salesforce-platform
+- scope: id
+  description: Identity URL access.
+  origin: salesforce-platform
+- scope: api
+  description: Salesforce REST/SOAP API access on behalf of the user.
+  origin: salesforce-platform
+- scope: web
+  description: Web session access to the org.
+  origin: salesforce-platform
+- scope: full
+  description: Full access to all data the user can access.
+  origin: salesforce-platform
+- scope: refresh_token
+  description: Issue a refresh token.
+  origin: salesforce-platform
+- scope: offline_access
+  description: Offline access (refresh token alias).
+  origin: salesforce-platform
+- scope: custom_permissions
+  description: Returns the custom permissions granted to the user.
+  origin: salesforce-platform
+- scope: lightning
+  description: Lightning Experience access.
+  origin: salesforce-platform
+- scope: visualforce
+  description: Visualforce page access.
+  origin: salesforce-platform
+- scope: content
+  description: Salesforce CMS / content access.
+  origin: salesforce-platform
+- scope: chatter_api
+  description: Connect (Chatter) REST API access.
+  origin: salesforce-platform
+- scope: chatbot_api
+  description: Einstein Bots API access.
+  origin: salesforce-platform
+- scope: eclair_api
+  description: Einstein analytics (Eclair) API access.
+  origin: salesforce-platform
+- scope: wave_api
+  description: CRM Analytics (Wave) API access.
+  origin: salesforce-platform
+- scope: interaction_api
+  description: Interaction Studio / personalization API access.
+  origin: salesforce-platform
+- scope: pardot_api
+  description: Account Engagement (Pardot) API access.
+  origin: salesforce-platform
+- scope: scrt_api
+  description: Service Cloud real-time (SCRT) messaging API access.
+  origin: salesforce-platform
+- scope: sfap_api
+  description: Salesforce platform agent API access.
+  origin: salesforce-platform
+- scope: einstein_gpt_api
+  description: Einstein GPT API access.
+  origin: salesforce-platform
+- scope: mcp_api
+  description: Salesforce Model Context Protocol API access (platform-provided).
+  origin: salesforce-platform
+- scope: user_registration_api
+  description: Self-registration API access.
+  origin: salesforce-platform
+- scope: pwdless_login_api
+  description: Passwordless login API access.
+  origin: salesforce-platform
+- scope: forgot_password
+  description: Forgot-password flow API access.
+  origin: salesforce-platform
+- scope: cdp_api
+  description: Data Cloud (CDP) API access.
+  origin: salesforce-platform
+- scope: cdp_query_api
+  description: Data Cloud query API access.
+  origin: salesforce-platform
+- scope: cdp_profile_api
+  description: Data Cloud profile API access.
+  origin: salesforce-platform
+- scope: cdp_ingest_api
+  description: Data Cloud ingestion API access.
+  origin: salesforce-platform
+- scope: cdp_segment_api
+  description: Data Cloud segmentation API access.
+  origin: salesforce-platform
+- scope: cdp_identityresolution_api
+  description: Data Cloud identity resolution API access.
+  origin: salesforce-platform
+- scope: cdp_calculated_insight_api
+  description: Data Cloud calculated insights API access.
+  origin: salesforce-platform
+- scope: data_cloud_user_claims
+  description: Data Cloud user claims.
+  origin: salesforce-platform
