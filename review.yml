@@ -1,0 +1,442 @@
+aid: sa-power-networks
+name: SA Power Networks
+review:
+  question: >-
+    Does SA Power Networks — the sole electricity distributor for South Australia,
+    operating inside the one jurisdiction that transplanted a proven statutory data
+    mandate from banking into energy — publish any documented public API?
+  answer: false
+  date: '2026-07-27'
+  reviewer: API Evangelist
+  homeMarket: Australia (South Australia)
+  tier: network-distributor
+  method: >-
+    Anonymous HTTP probing of sapowernetworks.com.au and its subdomains, DNS
+    resolution of candidate developer hosts, retrieval and grep of the published
+    sitemap.xml (547 URLs), retrieval and text extraction of SA Power Networks'
+    own technical standard TS129, and an anonymous query against the live
+    Australian CDR Register energy data-holder endpoint. Every URL below carries
+    the HTTP status observed on 2026-07-27.
+
+findings:
+  summary: |
+    SA Power Networks publishes no API. Not a gated one, not an accredited one,
+    not an undocumented one — none. The apis[] array in apis.yml is empty and
+    that is the accurate record.
+
+    This matters more here than anywhere else in the study, because South
+    Australia is the control case. Australia took the exact statutory machinery
+    that made fifty banks publish one byte-for-byte identical API — the Consumer
+    Data Right, the ACCC, the Data Standards Body — and applied it to energy. It
+    worked. There is a live CDR energy register with 84 data-holder brands, each
+    with a real public base URI, each conforming to the same Consumer Data
+    Standards. The transplant succeeded.
+
+    It just did not land on this company. The Consumer Data Right (Energy Sector)
+    Designation names electricity retailers as primary data holders and AEMO as
+    the secondary data holder for NMI standing data, metering data and DER
+    register information. Distribution network service providers — the businesses
+    that actually own the meters, the wires and the connection data — were left
+    out of the designation entirely. The mandate reached the party that bills the
+    customer and the party that runs the market, and skipped the party in the
+    middle that holds the physical data.
+
+    So the finding is not "mandated but not implemented". It is the sharper one:
+    the mandate is real, it is implemented, it is verifiable — and this
+    organization is simply outside it. Where the CDR does not reach, SA Power
+    Networks reverts to exactly the posture of an unmandated utility anywhere
+    else in the world: web portals, PDF registration forms, a phone number, and
+    bulk file downloads.
+
+mandate:
+  regime: cdr-energy
+  regimeNote: >-
+    The Consumer Data Right was extended to the energy sector by the Consumer
+    Data Right (Energy Sector) Designation 2020, administered by the ACCC with
+    standards set by the Data Standards Body — the same regime, regulator and
+    standards authority that produced Australia's banking API mandate.
+  status: not-applicable
+  statusNote: >-
+    SA Power Networks is NOT a designated CDR data holder. The designation makes
+    electricity retailers primary data holders and AEMO the secondary data holder;
+    distribution network service providers are not designated. This is not
+    inferred from a press release or a compliance page — it was verified against
+    the live register.
+  verification:
+    - probe: CDR Register — energy data holder brands
+      url: https://api.cdr.gov.au/cdr-register/v1/energy/data-holders/brands/summary
+      headers: 'x-v: 1'
+      httpStatus: 200
+      fetched: '2026-07-27'
+      result: >-
+        84 energy data-holder brands returned. Every one is an electricity or gas
+        RETAILER (AGL, Origin Energy, EnergyAustralia, Alinta, Amber, Red Energy,
+        Powershop, Momentum, Aurora, Ergon Energy Retail, Shell Energy, Tesla
+        Energy Ventures, and so on), each with a real publicBaseUri such as
+        https://public.cdr.agl.com.au or https://cdr.energymadeeasy.gov.au/<brand>.
+        Zero distribution network service providers appear. String match for
+        "power network" and "sa power" across brandName and legalEntityName
+        returned no results.
+    - probe: sapowernetworks.com.au sitemap.xml
+      url: https://www.sapowernetworks.com.au/sitemap.xml
+      httpStatus: 200
+      fetched: '2026-07-27'
+      result: >-
+        547 URLs. Case-insensitive match count for "cdr", "consumer-data",
+        "open-data", "/api" and "developer" = 5, and all five hits are on the word
+        "developer" in property-developer connection pages
+        (/connections/new-connections/commercial-industrial-and-developer-...).
+        Zero occurrences of "green-button". The company never mentions the
+        Consumer Data Right on its own website.
+  otherObligationInForce:
+    name: South Australian Dynamic Export Limits requirement (Smarter Homes)
+    inForce: '2023-07-01'
+    appliesToThisOrg: true
+    description: >-
+      A South Australian Government regulation requiring new small solar
+      installations to be dynamic-exports capable, and putting SA Power Networks
+      in the role of publishing per-site export limits to those installations.
+      This is a genuine, live, regulated obligation that DOES bite this
+      organization, and it is the only place SA Power Networks operates anything
+      API-shaped.
+    implementationStatus: >-
+      Live for customers — SA Power Networks' Flexible Exports product is an
+      offered connection option with a Clean Energy Council certified inverter
+      list. Independent evidence (the ARENA-funded Flexible Exports for Solar PV
+      Trial Final Report, HTTP 200 at
+      https://arena.gov.au/assets/2024/01/SA-Power-Networks-Flexible-Exports-for-Solar-PV-Trial-Final-Report.pdf)
+      documents a modular IEEE 2030.5 / CSIP-AUS compliant utility server built by
+      SwitchDin for SA Power Networks and AusNet.
+    publicApiSurface: none
+    publicApiNote: >-
+      No endpoint, no base URI, no specification, no certificate policy, no
+      onboarding guide is published by SA Power Networks for this utility server.
+      Integration happens through inverter-manufacturer certification and a phone
+      number. See dataStandard below for the verified negative.
+
+dataStandard:
+  claimed: none
+  namedByOrganization: none
+  finding: >-
+    No standard reference found in any SA Power Networks publication. Not Green
+    Button, not ESPI, not the CDR Consumer Data Standards, not OCPP or OCPI, not
+    OpenADR, not IEC CIM. Most strikingly, not IEEE 2030.5 or CSIP-AUS either —
+    even though SA Power Networks demonstrably runs a CSIP-AUS utility server.
+  probes:
+    - artifact: >-
+        SA Power Networks Technical Standard TS129 — Small EG Connections
+        Technical Requirements (capacity not exceeding 30kVA), 2025 edition
+      url: https://www.sapowernetworks.com.au/public/download.jsp?id=333594
+      httpStatus: 200
+      contentType: application/pdf
+      bytes: 1500101
+      fetched: '2026-07-27'
+      result: >-
+        Full text extracted and searched. Occurrences of "2030.5" = 0. "CSIP" = 0.
+        "HB 218" = 0. "SEP2" = 0. "utility server" = 0. "API" = 0. The document
+        cites AS/NZS 4777.1:2024 and AS/NZS 4777.2:2020 (48 hits on "4777") and
+        describes Flexible Exports in prose (2 hits) without ever naming the
+        protocol that carries it.
+    - artifact: CER compliance — technical standards and useful links
+      url: https://www.sapowernetworks.com.au/connections/connect-solar-and-ev-chargers/small-embedded-generation/cer-compliance/technical-standards-and-useful-links/
+      httpStatus: 200
+      fetched: '2026-07-27'
+      result: >-
+        Names AS4777.2:2020 and AS4777.2:2025 and links TS129. No IEEE 2030.5, no
+        CSIP-AUS, no SA HB 218, no API, no utility server.
+    - artifact: Relevant Agent (Smarter Homes)
+      url: https://www.sapowernetworks.com.au/industry/flexible-exports/relevant-agent-smarter-homes/
+      httpStatus: 200
+      fetched: '2026-07-27'
+      result: >-
+        Defines the Relevant Agent role. No protocol, no endpoint, no
+        certificate/mTLS detail, no API. Directs installers to "contact their
+        technology provider or manufacturer".
+    - artifact: Relevant Agent — supported technology
+      url: https://www.sapowernetworks.com.au/industry/relevant-agent/supported-technology/
+      httpStatus: 200
+      fetched: '2026-07-27'
+      result: >-
+        Lists compatible hardware categories (inverters, electricity meters,
+        DREDs, SCADA control) and vendor commissioning guides. No standard named.
+    - artifact: Flexible Exports (industry)
+      url: https://www.sapowernetworks.com.au/industry/flexible-exports/
+      httpStatus: 200
+      fetched: '2026-07-27'
+      result: >-
+        Describes the product and points to the SA Government Dynamic Export
+        Requirements and the CEC inverter list. Directs manufacturers to phone
+        13 12 61. No technical documentation link.
+  externalEvidenceOnly: >-
+    IEEE 2030.5 / CSIP-AUS (Standards Australia handbook SA HB 218) is documented
+    as the protocol in the ARENA trial reporting, not by SA Power Networks. The
+    honest record is: a real standard is in production behind the wall, and the
+    operator has published nothing about it.
+
+consumerVsMarketData:
+  consumerDataApi: false
+  consumerDataFinding: >-
+    A third party CANNOT obtain an individual customer's usage data through any
+    documented API. The only documented path is human: obtain the customer's
+    consent, complete the "Authorised Representative Registration form" (a 32KB
+    PDF), have SA Power Networks confirm eligibility, then log into the Your Meter
+    Data dashboard in a browser. SA Power Networks states it "may request evidence
+    of your client's consent to access data on their behalf." No API, no OAuth, no
+    consent dashboard, no revocation surface, no machine-readable contract.
+  consumerDataProbes:
+    - url: https://www.sapowernetworks.com.au/industry/access-your-clients-meter-data/
+      httpStatus: 200
+      fetched: '2026-07-27'
+    - url: https://customer.portal.sapowernetworks.com.au/meterdata/CADSiteLogin
+      httpStatus: 200
+      fetched: '2026-07-27'
+      note: Customer/representative web login. Not a developer surface.
+  marketDataOpen: true
+  marketDataFinding: >-
+    Genuinely open, genuinely anonymous — and genuinely not an API. Bulk network
+    and system data is downloadable with no login, no registration and no
+    referrer: the annual Zone Substation Data release, the Distribution Annual
+    Planning Report, five years of System Limitation Templates, the Register of
+    Connected Embedded Generation, and the Industry Engagement Document. This is
+    real open publishing by a distributor and it is more than many utilities do.
+    It is also files, not endpoints — nothing is queryable, nothing is versioned
+    as a contract, and the terms restrict commercial redistribution without
+    written consent rather than granting an open licence.
+  marketDataProbes:
+    - artifact: 2024-2025 Zone Substation Data
+      landingUrl: https://www.sapowernetworks.com.au/data/324688/2024-2025-zone-substation-data/
+      downloadUrl: https://www.sapowernetworks.com.au/public/download.jsp?id=335923
+      httpStatus: 200
+      contentType: application/zip
+      bytes: 34494377
+      anonymous: true
+      fetched: '2026-07-27'
+    - artifact: Annual network plans (DAPR, system limitation templates, embedded generation register)
+      url: https://www.sapowernetworks.com.au/industry/annual-network-plans/
+      httpStatus: 200
+      fetched: '2026-07-27'
+      note: >-
+        All assets served from /public/download.jsp?id=<n> as PDF/spreadsheet.
+        No dataset catalogue, no machine-readable index, no API.
+  theSplit: >-
+    Wide open on market data, completely closed on consumer data — and the split
+    is not a policy choice, it is a regulatory artefact. Nothing compels SA Power
+    Networks to expose consumer data (the CDR skipped distributors), and the
+    network-planning transparency it does publish is driven by AER planning
+    obligations, which require publication but never required an API. Where the
+    regulator asked for a document, the company shipped a document.
+
+accessGate:
+  gate: none-published
+  gated: true
+  developerPath: >-
+    There is no developer path. A developer cannot obtain a key, a token, a
+    sandbox, a spec, or a rate limit from SA Power Networks, because none of those
+    things exist. The three real access paths are all for humans in browsers.
+  paths:
+    - surface: Meter data for a client (consumer data)
+      gate: application-approval
+      steps: >-
+        Obtain customer consent, complete the Authorised Representative
+        Registration form (PDF), submit it, wait for SA Power Networks to confirm
+        eligibility, then log into the Your Meter Data dashboard.
+      url: https://www.sapowernetworks.com.au/industry/access-your-clients-meter-data/
+    - surface: Network capacity / DAPR Network Visualisation Portal
+      gate: self-serve
+      steps: >-
+        Self-register through the hosted sign-up, then sign in. Delivers a
+        geospatial map viewer of zone substation sites, HV overhead and
+        underground lines, demand and generation forecasts, headroom/hosting
+        capacity and system strength — as a picture, not as data.
+      url: https://dapr.sapowernetworks.com.au/
+    - surface: Bulk network datasets
+      gate: none
+      steps: Click the link. No account, no referrer, no licence click-through.
+      url: https://www.sapowernetworks.com.au/industry/annual-network-plans/
+
+authModel:
+  scheme: OAuth 2.0 implicit flow via AWS Cognito (OpenID Connect) — portal login only
+  finding: >-
+    The one machine-verifiable auth surface SA Power Networks operates is the
+    Cognito user pool fronting the DAPR Network Visualisation Portal. It is a
+    login for a map viewer, not an authorization server for an API — there is no
+    API behind it to authorize.
+  evidence:
+    - url: https://dapr.sapowernetworks.com.au/
+      httpStatus: 200
+      fetched: '2026-07-27'
+      note: >-
+        Page body is a redirect shim to
+        https://sapndapr.auth.ap-southeast-2.amazoncognito.com/login with
+        client_id=4407rsobdsip2kthm31e9l6fd3, response_type=token, and
+        scope="aws.cognito.signin.user.admin email openid profile",
+        redirect_uri=https://dapr.sapowernetworks.com.au/index.php. The inline
+        comment in the page explicitly describes the AWS Cognito implicit-grant
+        fragment handling.
+      dns: dapr.sapowernetworks.com.au -> sapowernetworksdapr.rosettaportal.com.au (third-party portal vendor)
+    - url: https://sapndapr.auth.ap-southeast-2.amazoncognito.com/login?client_id=4407rsobdsip2kthm31e9l6fd3&response_type=token&scope=aws.cognito.signin.user.admin+email+openid+profile&redirect_uri=https://dapr.sapowernetworks.com.au/index.php
+      httpStatus: 200
+      fetched: '2026-07-27'
+      note: >-
+        Cognito hosted UI renders "Sign in", "Sign up" and "Forgot password" —
+        confirming registration is self-serve, not approval-gated.
+    - url: https://sapndapr.auth.ap-southeast-2.amazoncognito.com/.well-known/openid-configuration
+      httpStatus: 404
+      fetched: '2026-07-27'
+      note: >-
+        Fetched anonymously as required. Cognito hosted-UI domains do not serve
+        discovery; the user pool ID needed to reach the real discovery document is
+        not disclosed. No OIDC discovery document is reachable.
+    - url: https://sapndapr.auth.ap-southeast-2.amazoncognito.com/oauth2/userInfo
+      httpStatus: 400
+      fetched: '2026-07-27'
+      note: 'Responds {"error":"invalid_request"} — endpoint live, bearer token required.'
+    - url: https://www.sapowernetworks.com.au/.well-known/openid-configuration
+      httpStatus: 404
+      fetched: '2026-07-27'
+
+downloadableContracts:
+  found: false
+  specsCount: 0
+  openapiDirectory: omitted (nothing real was found)
+  subdomainProbes:
+    - host: developer.sapowernetworks.com.au
+      dns: NXDOMAIN
+    - host: developers.sapowernetworks.com.au
+      dns: NXDOMAIN
+    - host: docs.sapowernetworks.com.au
+      dns: NXDOMAIN
+    - host: api.sapowernetworks.com.au
+      dns: NXDOMAIN
+    - host: apis.sapowernetworks.com.au
+      dns: NXDOMAIN
+    - host: data.sapowernetworks.com.au
+      dns: NXDOMAIN
+    - host: open.sapowernetworks.com.au
+      dns: NXDOMAIN
+    - host: opendata.sapowernetworks.com.au
+      dns: NXDOMAIN
+    - host: portal.sapowernetworks.com.au
+      dns: resolves
+      httpStatus: 403
+    - host: dapr.sapowernetworks.com.au
+      dns: resolves (CNAME sapowernetworksdapr.rosettaportal.com.au)
+      httpStatus: 200
+      note: Cognito-gated map viewer, no API.
+    - host: customer.portal.sapowernetworks.com.au
+      dns: resolves
+      httpStatus: 200
+      note: Customer/representative meter data login.
+  pathProbes:
+    - path: /developers
+      httpStatus: 404
+    - path: /developer
+      httpStatus: 404
+    - path: /api
+      httpStatus: 404
+    - path: /apis
+      httpStatus: 404
+    - path: /docs
+      httpStatus: 404
+    - path: /data
+      httpStatus: 404
+    - path: /open-data
+      httpStatus: 404
+    - path: /openapi.json
+      httpStatus: 404
+    - path: /swagger.json
+      httpStatus: 404
+    - path: /api-docs
+      httpStatus: 404
+    - path: /.well-known/openid-configuration
+      httpStatus: 404
+    - path: /.well-known/security.txt
+      httpStatus: 404
+    - path: /robots.txt
+      httpStatus: 200
+      note: >-
+        Disallows /admin/, /js/, /logs/, /utils/, */search/, */resource-library/?*,
+        */faq-search-results/?*, /vpn/*. Declares sitemap.xml. No API paths.
+  thirdPartyCatalogues:
+    - probe: South Australian open data portal (CKAN) — organization page
+      url: https://data.sa.gov.au/data/organization/sa-power-networks
+      httpStatus: 404
+      fetched: '2026-07-27'
+    - probe: South Australian open data portal (CKAN) — package search "SA Power Networks"
+      url: https://data.sa.gov.au/data/api/3/action/package_search?q=%22SA%20Power%20Networks%22
+      httpStatus: 200
+      fetched: '2026-07-27'
+      result: >-
+        3 results, none published by SA Power Networks (a NSW media release and two
+        SA departmental annual-report datasets that merely mention the phrase).
+        The state's own open data portal carries nothing from its sole electricity
+        distributor.
+    - probe: GitHub organization
+      url: https://api.github.com/orgs/sapowernetworks
+      httpStatus: 404
+      fetched: '2026-07-27'
+      result: No GitHub organization; user search for "SA Power Networks" returned 0.
+
+sources:
+  - url: https://www.sapowernetworks.com.au/about-us/our-role/
+    type: About
+    httpStatus: 200
+    note: >-
+      States SA Power Networks is "the state's sole electricity distributor" and
+      that it maintains "the poles, wires and substations that deliver power to
+      around 900,000 homes and businesses".
+  - url: https://www.sapowernetworks.com.au/industry/
+    type: Documentation
+    httpStatus: 200
+    note: >-
+      The industry landing page — the closest thing to a partner hub. 18 links,
+      all human workflows (permits, portals, tenders, standards). No API,
+      developer or open-data reference.
+  - url: https://www.sapowernetworks.com.au/industry/access-your-clients-meter-data/
+    type: Documentation
+    httpStatus: 200
+    note: Authorised Representative registration + portal login. The consumer-data path.
+  - url: https://www.sapowernetworks.com.au/industry/annual-network-plans/
+    type: Data
+    httpStatus: 200
+    note: DAPR, system limitation templates, embedded generation register. Files only.
+  - url: https://www.sapowernetworks.com.au/data/324688/2024-2025-zone-substation-data/
+    type: Data
+    httpStatus: 200
+    note: Anonymous 34 MB ZIP. The one unambiguously open surface.
+  - url: https://dapr.sapowernetworks.com.au/
+    type: Portal
+    httpStatus: 200
+    note: Network Visualisation Portal, AWS Cognito self-serve registration.
+  - url: https://www.sapowernetworks.com.au/data/315234/new-network-visualisation-portal-launched/
+    type: Blog
+    httpStatus: 200
+    note: >-
+      Announces the portal, states it "is available to all customers" after
+      "simple registration", and makes no mention of data downloads, API access or
+      licensing.
+  - url: https://api.cdr.gov.au/cdr-register/v1/energy/data-holders/brands/summary
+    type: Registry
+    httpStatus: 200
+    note: >-
+      The live Australian CDR Register. 84 energy data-holder brands, all
+      retailers, zero distributors. This single anonymous call is the load-bearing
+      evidence for the mandate finding.
+  - url: https://arena.gov.au/assets/2024/01/SA-Power-Networks-Flexible-Exports-for-Solar-PV-Trial-Final-Report.pdf
+    type: Report
+    httpStatus: 200
+    note: >-
+      Third-party (ARENA) documentation of the IEEE 2030.5 / CSIP-AUS utility
+      server operated for SA Power Networks. External evidence only — SA Power
+      Networks itself never names the protocol.
+
+actions:
+  apisListed: 0
+  apisYmlCreated: true
+  openapiHarvested: false
+  specsCount: 0
+  reason: >-
+    apis[] is empty because nothing real exists to list. No OpenAPI, AsyncAPI,
+    GraphQL, Postman collection, JSON Schema or MCP descriptor was found or
+    fabricated. The company's entire integration surface is web portals and file
+    downloads, and this profile records exactly that.
