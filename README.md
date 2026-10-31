@@ -1,4 +1,4 @@
-# SA Power Networks (sa-power-networks)
+# SA Power Networks
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,75 +66,89 @@
 
 SA Power Networks is South Australia's sole electricity distributor — the poles-and-wires DNSP that builds, maintains and upgrades the network delivering power to around 900,000 homes and businesses, and the operator of the state's Flexible Exports dynamic solar export scheme. It sits between the transmission network and the retailers, holding meter data, network capacity data and DER connection data but selling nothing to consumers directly. Its API posture is empty by design: Australia's Consumer Data Right was extended to energy and is live, but the designation names electricity retailers as primary data holders and AEMO as the secondary data holder — distributors are not designated, and SA Power Networks does not appear among the 84 brands on the live CDR energy register. There is no developer portal, no documented API, and no machine-readable contract of any kind. Third parties reach a customer's meter data only by registering as an Authorised Representative and logging into a web portal; network capacity is a registration-gated map viewer; the genuinely open surface is bulk file downloads (zone substation data, the Distribution Annual Planning Report, the embedded generation register) that anyone can pull anonymously but that carry a redistribution restriction rather than an open licence.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/sa-power-networks/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/sa-power-networks/refs/heads/main/apis.yml)
+**Areas:** Energy · Australia · Utilities · Electricity · Grid · Distribution Network · Smart Metering · Solar · DER · Open Data
 
-## Tags
+## SA Power Networks on APIs.io
 
-- Energy
-- Australia
-- Utilities
-- Electricity
-- Grid
-- Distribution Network
-- Smart Metering
-- Solar
-- DER
-- Open Data
+Everything profiled for SA Power Networks is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/sa-power-networks/](https://apis.io/providers/sa-power-networks/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-07-27
-- **Modified:** 2026-07-27
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### Security (2)
 
-No public, documented APIs were found.
+Authentication, trust centre, and vulnerability disclosure.
 
-Every developer-facing probe returned nothing. The subdomains `developer.`, `developers.`, `docs.`, `api.`, `apis.`, `data.`, `open.` and `opendata.sapowernetworks.com.au` do not resolve (NXDOMAIN). On the main site, `/developers`, `/developer`, `/api`, `/apis`, `/docs`, `/data`, `/open-data`, `/openapi.json`, `/swagger.json`, `/api-docs`, `/.well-known/openid-configuration` and `/.well-known/security.txt` all return HTTP 404. The published `sitemap.xml` (547 URLs) contains zero matches for `cdr`, `consumer-data`, `open-data`, `/api` or `green-button`; the only five hits on "developer" are property-developer connection pages.
+- [Sa Power Networks Authentication](https://apis.io/security/sa-power-networks/sa-power-networks-authentication/)
+- [Sa Power Networks Domain Security](https://apis.io/security/sa-power-networks/sa-power-networks-domain-security/)
 
-See `review.yml` for the full mandate, standard, access-gate and auth findings.
+#### OAuth scopes (1)
 
-## Mandate Posture
+The permissions the API asks for.
 
-- **Regime in the home market:** Consumer Data Right (Energy) — live, statutory, ACCC-administered, Data Standards Body-specified.
-- **Status for this organization:** not applicable. Distributors are not designated data holders. Verified against the live CDR Register — `https://api.cdr.gov.au/cdr-register/v1/energy/data-holders/brands/summary` returned HTTP 200 with 84 energy brands, every one a retailer, and no distribution network service provider of any kind.
-- **The obligation that does bite:** the South Australian Government's Dynamic Export Limits requirement (in force 1 July 2023), which makes new solar installations dynamic-exports capable and puts SA Power Networks in the role of dispatching export limits. That obligation is implemented and live for customers — and it is the one place SA Power Networks operates something API-shaped — but no endpoint, specification, or standard reference for it is published anywhere by SA Power Networks.
+- [Sa Power Networks Scopes](https://apis.io/scopes/sa-power-networks/sa-power-networks-scopes/)
 
-## Common Properties
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.sapowernetworks.com.au/)
-- [LinkedIn](https://www.linkedin.com/company/sa-power-networks)
-- [About](https://www.sapowernetworks.com.au/about-us/our-role/)
-- [Industry](https://www.sapowernetworks.com.au/industry/)
-- [Blog](https://www.sapowernetworks.com.au/industry/industry-news/)
-- [Resource Library](https://www.sapowernetworks.com.au/resource-library/)
-- [Portal](https://dapr.sapowernetworks.com.au/)
 - [Documentation](https://www.sapowernetworks.com.au/industry/access-your-clients-meter-data/)
-- [Documentation](https://www.sapowernetworks.com.au/industry/flexible-exports/)
-- [Documentation](https://www.sapowernetworks.com.au/industry/relevant-agent/)
-- [Data](https://www.sapowernetworks.com.au/industry/annual-network-plans/)
-- [Data](https://www.sapowernetworks.com.au/data/324688/2024-2025-zone-substation-data/)
-- [Portal — Industry Portal](https://www.sapowernetworks.com.au/industry/portal/)
 - [Support](https://www.sapowernetworks.com.au/contact-us/)
-- [Privacy Policy](https://www.sapowernetworks.com.au/policies/privacy-policy/)
-- [Terms of Service — website disclaimer](https://www.sapowernetworks.com.au/policies/disclaimer/)
+- [Blog](https://www.sapowernetworks.com.au/industry/industry-news/)
+- [Terms of service](https://www.sapowernetworks.com.au/policies/disclaimer/)
+- [Privacy policy](https://www.sapowernetworks.com.au/policies/privacy-policy/)
 
-## Artifacts
+## API Evangelist rating
 
-Enrichment round 2026-07-27. Every artifact below records what was actually probed, including the negatives.
+**Kin Score 22.7** — emerging · rubric 0.24.0 · scored 2026-10-17
 
-- `well-known/sa-power-networks-well-known.yml` — `/.well-known/` probe matrix across four hosts. One document exists.
-- `well-known/sa-power-networks-meterdata-openid-configuration.json` — verbatim OIDC discovery document from the Your Meter Data portal (HTTP 200), plus its JWKS.
-- `authentication/sa-power-networks-authentication.yml` — both portal auth surfaces (Salesforce Experience Cloud OIDC, AWS Cognito implicit) and what is absent.
-- `scopes/sa-power-networks-scopes.yml` — the OIDC `scopes_supported` set, flagged as Salesforce platform defaults rather than an SA Power Networks authorization model.
-- `conformance/sa-power-networks-conformance.yml` — IEEE 2030.5 / CSIP-AUS conformance with evidence from SA Power Networks' own trial reports; CDR, OpenAPI, security.txt and api-catalog all recorded as non-conforming.
-- `lifecycle/sa-power-networks-lifecycle.yml` — no API versioning, deprecation policy, SLA or status page; the outage map is network status, not API status.
-- `llms/sa-power-networks-llms.txt` — generated (the provider serves no `/llms.txt`).
-- `security/sa-power-networks-domain-security.yml` — probed TLS/HSTS/DNSSEC/CAA/SPF/DMARC.
+| Facet | Score |
+|---|---|
+| Discoverability | 55.4 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 0.0 |
+| Developer ergonomics | 38.1 |
+| Access clarity | 21.1 |
 
-Two round-one findings were corrected this round (see the `correction:` blocks in `review.yml`): SA Power Networks **does** name IEEE 2030.5 and CSIP-AUS in its own published Flexible Exports Lessons Learnt reports, and an OpenID Connect discovery document **is** reachable — on the meter-data portal, not on the Cognito domain. Neither changes the headline: still no API.
+**Agent readiness 10.8** — agent-aware
 
-## Maintainers
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | — |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Regulatory alignment 34.4** — Energy & Utilities
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/sa-power-networks/](https://apis.io/providers/sa-power-networks/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for SA Power Networks: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/sa-power-networks/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
